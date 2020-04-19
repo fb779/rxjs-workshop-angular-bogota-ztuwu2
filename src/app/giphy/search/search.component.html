@@ -1,0 +1,20 @@
+<mat-form-field class="input">
+	<input matInput placeholder="Buscar" [value]="searchTerm" (input)="searchChange.emit($event.target.value)"/>
+</mat-form-field>
+
+	<mat-form-field class="input select">
+		<mat-label>Mostrar</mat-label>
+		<mat-select [(ngModel)]="limit" (selectionChange)="limitChange.emit(limit)">
+			<mat-option *ngFor="let option of limits" [value]="option">
+				{{option}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<div class="ml-12">
+		<span>Resultados para <strong>{{ searchTerm }}</strong>: {{ totalResults }} </span>
+		<p>Página {{ actualPage + 1 }} de {{ totalPages }}</p>
+	</div>
+	<div class="buttons">
+		<button mat-raised-button color="primary" class="mr-4" (click)="movePage.emit(-1)" [disabled]="firstPage">Atrás</button>
+		<button mat-raised-button color="primary" class="mr-4" (click)="movePage.emit(1)" [disabled]="lastPage">Siguiente</button>
+	</div>

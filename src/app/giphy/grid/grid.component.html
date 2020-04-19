@@ -1,0 +1,14 @@
+<div class="gifs-layout">
+	<mat-card class="gif-card" *ngFor="let gif of gifs">
+		<img
+        mat-card-image
+        src="{{ gif.images.preview_gif.url }}"
+        alt="Photo of gif {{ gif.title }}"
+      />
+		<mat-card-content>
+			<span style="font-weight: bold;">	{{ gif.title }}</span>
+			<p>{{ gif.username }}</p>
+		</mat-card-content>
+
+	</mat-card>
+</div>
