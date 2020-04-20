@@ -1,6 +1,18 @@
 <div class="container">
-	<app-search [searchTerm]="searchTerm" [limit]="limit"></app-search>
+	<app-search 
+    [searchTerm]="searchTerm$ | async" 
+    [limit]="limit$ | async"
+    [firstPage]="(actualPage$ | async) === 0"
+    [lastPage]="((actualPage$ | async) + 1) === (totalPages$| async ) "
+    [totalResults]="totalResults$ | async" 
+    [actualPage]="actualPage$ | async" 
+    [totalPages]="totalPages$ | async"
+    (movePage)="movePage($event)"
+    (limitChange)="limitChange($event)"
+    (searchChange)="searchChange($event)"
+  >
+  </app-search>
 
-	<app-grid [gifs]="gifs">
+	<app-grid [gifs]="gifs$ | async" >
 	</app-grid>
 </div>
