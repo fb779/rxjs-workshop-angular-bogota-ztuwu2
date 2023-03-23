@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import {
   API_KEY,
   API_SEARCH_URL,
@@ -6,18 +9,7 @@ import {
   DEFAULT_SEARCH_LIMIT,
   DEFAULT_SEARCH_OFFSET,
 } from './giphy.config';
-import { HttpClient } from '@angular/common/http';
-import {
-  map,
-  tap,
-  switchMap,
-  withLatestFrom,
-  catchError,
-} from 'rxjs/operators';
 import { GiphyResponse, Gif } from './giphy.model';
-import { Observable, BehaviorSubject, combineLatest, of } from 'rxjs';
-
-const giphyUrl = `${API_SEARCH_URL}?q=${DEFAULT_SEARCH_TERM}&api_key=${API_KEY}&limit=${DEFAULT_SEARCH_LIMIT}&offset=${DEFAULT_SEARCH_OFFSET}`;
 
 @Injectable({
   providedIn: 'root',
@@ -41,14 +33,6 @@ export class GiphyService {
     return this.limitBS.asObservable();
   }
 
-  // giphyResponse$ = this.http.get(giphyUrl);
-
-  /*giphyResponse$ = this.actualPage$.pipe(
-    switchMap( 
-      actualPage => this.http.get( this.getUrl({offset: actualPage} ) )
-    )
-  )*/
-
   giphyResponse$ = combineLatest([
     this.searchTerm$,
     this.actualPage$,
@@ -60,11 +44,12 @@ export class GiphyService {
   );
 
   get firstPage$(): Observable<boolean> {
-    // return of(this.actualPageBS.value === 0);
     return this.actualPage$.pipe(map((vl) => vl === 0));
   }
   get lastPage$(): Observable<boolean> {
-    return of(false);
+    return combineLatest([this.actualPage$, this.totalPages$]).pipe(
+      map(([acPg, tpg]) => acPg === tpg)
+    );
   }
 
   get gifs$(): Observable<Gif[]> {

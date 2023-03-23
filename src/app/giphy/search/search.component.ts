@@ -18,4 +18,10 @@ export class SearchComponent {
   @Output() movePage = new EventEmitter();
   @Output() searchChange = new EventEmitter();
   limits = LIMITS;
+
+  onValueChange(event) {
+    if (event && event.target) {
+      this.searchChange.emit(event.target.value);
+    }
+  }
 }
