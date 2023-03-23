@@ -1,14 +1,14 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { LIMITS } from "../giphy.config";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { LIMITS } from '../giphy.config';
 
 @Component({
-  selector: "app-search",
-  templateUrl: "./search.component.html",
-  styleUrls: ["./search.component.css"]
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css'],
 })
 export class SearchComponent {
   @Input() searchTerm: string;
-  @Input() limit: string;
+  @Input() limit: number;
   @Input() firstPage: boolean;
   @Input() lastPage: boolean;
   @Input() totalResults: number;
